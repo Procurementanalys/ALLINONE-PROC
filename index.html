@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procurement Dashboard Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 50px 20px 30px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            animation: fadeInDown 0.8s ease;
+            letter-spacing: 2px;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease;
+            font-weight: 300;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            padding: 20px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 20px;
+            padding: 45px 35px;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+        .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+        .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+        .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+        .dashboard-card:nth-child(5) { animation-delay: 0.5s; }
+        
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--card-color-1), var(--card-color-2));
+        }
+        
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--card-color-1) 0%, var(--card-color-2) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .dashboard-card:hover::after {
+            opacity: 0.05;
+        }
+        
+        /* Color scheme untuk setiap dashboard */
+        .dashboard-card:nth-child(1) {
+            --card-color-1: #FF6B6B;
+            --card-color-2: #FF8E53;
+        }
+        
+        .dashboard-card:nth-child(2) {
+            --card-color-1: #4ECDC4;
+            --card-color-2: #44A08D;
+        }
+        
+        .dashboard-card:nth-child(3) {
+            --card-color-1: #A8E6CF;
+            --card-color-2: #3DDC84;
+        }
+        
+        .dashboard-card:nth-child(4) {
+            --card-color-1: #FFD93D;
+            --card-color-2: #F39C12;
+        }
+        
+        .dashboard-card:nth-child(5) {
+            --card-color-1: #A8DADC;
+            --card-color-2: #457B9D;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+        }
+        
+        .dashboard-icon {
+            font-size: 4.5em;
+            margin-bottom: 25px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .dashboard-card:hover .dashboard-icon {
+            animation: pulse 0.6s ease;
+        }
+        
+        .dashboard-number {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--card-color-1);
+            opacity: 0.15;
+        }
+        
+        .dashboard-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        .dashboard-description {
+            color: #7f8c8d;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 50px;
+        }
+        
+        .dashboard-link {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(90deg, var(--card-color-1), var(--card-color-2));
+            color: white;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.05em;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .dashboard-card:hover .dashboard-link {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .edit-instruction {
+            background: rgba(255, 255, 255, 0.97);
+            border-left: 6px solid #e74c3c;
+            padding: 25px 30px;
+            margin: 20px auto 40px;
+            max-width: 1400px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .edit-instruction h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .edit-instruction ol {
+            margin-left: 20px;
+            color: #555;
+        }
+        
+        .edit-instruction li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+        
+        .edit-instruction code {
+            background: #f8f9fa;
+            padding: 3px 10px;
+            border-radius: 5px;
+            color: #e74c3c;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            font-weight: bold;
+        }
+        
+        .edit-instruction .note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            color: #856404;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+            opacity: 0.8;
+        }
+        
+        .footer p {
+            font-size: 1.1em;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .header p {
+                font-size: 1.1em;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px;
+            }
+            
+            .dashboard-card {
+                padding: 35px 25px;
+            }
+            
+            .dashboard-icon {
+                font-size: 3.5em;
+            }
+            
+            .dashboard-title {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 PROCUREMENT DASHBOARD</h1>
+            <p>Integrated Analytics & Monitoring System</p>
+        </div>
+        
+        <!-- PETUNJUK EDIT - HAPUS SETELAH SELESAI -->
+        <div class="edit-instruction">
+            <h3>⚙️ Petunjuk Setup Dashboard</h3>
+            <ol>
+                <li>Buka file ini dengan <strong>Text Editor</strong> (Notepad++, VS Code, Sublime, atau Notepad biasa)</li>
+                <li>Cari teks <code>GANTI-LINK-SALES-DISINI</code> (ada 5 tempat untuk 5 dashboard)</li>
+                <li>Ganti dengan <strong>link dashboard Anda yang sebenarnya</strong></li>
+                <li>Contoh: Ganti <code>href="GANTI-LINK-SALES-DISINI"</code> menjadi <code>href="https://lookerstudio.google.com/..."</code></li>
+                <li>Simpan file (Ctrl + S atau Cmd + S)</li>
+                <li>Buka file ini di browser → Dashboard siap digunakan! 🎉</li>
+            </ol>
+            <div class="note">
+                <strong>💡 Tips:</strong> Setelah semua link diisi, Anda bisa hapus kotak petunjuk ini dengan menghapus kode HTML dari <code>&lt;div class="edit-instruction"&gt;</code> sampai <code>&lt;/div&gt;</code>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            
+            <!-- DASHBOARD 1: SALES -->
+            <a href="https://procurementanalys.github.io/dashboardproc/" class="dashboard-card" target="_blank">
+                <div class="dashboard-number">01</div>
+                <div class="dashboard-icon">💰</div>
+                <div class="dashboard-title">Sales</div>
+                <div class="dashboard-description">
+                    Monitor sales performance, revenue trends, dan analisis penjualan procurement
+                </div>
+                <span class="dashboard-link">Buka Dashboard →</span>
+            </a>
+            
+            <!-- DASHBOARD 2: BUDGET -->
+            <a href="https://procurementanalys.github.io/dashboardproc/" class="dashboard-card" target="_blank">
+                <div class="dashboard-number">02</div>
+                <div class="dashboard-icon">💵</div>
+                <div class="dashboard-title">Budget</div>
+                <div class="dashboard-description">
+                    Tracking budget allocation, spending analysis, dan financial planning
+                </div>
+                <span class="dashboard-link">Buka Dashboard →</span>
+            </a>
+            
+            <!-- DASHBOARD 3: SLA PER SUPPLIER -->
+            <a href="https://procurementanalys.github.io/dashboardproc/" class="dashboard-card" target="_blank">
+                <div class="dashboard-number">03</div>
+                <div class="dashboard-icon">🤝</div>
+                <div class="dashboard-title">SLA Per Supplier</div>
+                <div class="dashboard-description">
+                    Monitor Service Level Agreement dan performa setiap supplier
+                </div>
+                <span class="dashboard-link">Buka Dashboard →</span>
+            </a>
+            
+            <!-- DASHBOARD 4: SLA PER SKU -->
+            <a href="GANTI-LINK-SLA-SKU-DISINI" class="dashboard-card" target="_blank">
+                <div class="dashboard-number">04</div>
+                <div class="dashboard-icon">📦</div>
+                <div class="dashboard-title">SLA Per SKU</div>
+                <div class="dashboard-description">
+                    Tracking SLA untuk setiap Stock Keeping Unit (SKU) products
+                </div>
+                <span class="dashboard-link">Buka Dashboard →</span>
+            </a>
+            
+            <!-- DASHBOARD 5: SOH (Stock On Hand) -->
+            <a href="https://procurementanalys.github.io/dashboardproc/" class="dashboard-card" target="_blank">
+                <div class="dashboard-number">05</div>
+                <div class="dashboard-icon">📊</div>
+                <div class="dashboard-title">SOH</div>
+                <div class="dashboard-description">
+                    Real-time Stock On Hand monitoring, inventory levels, dan warehouse status
+                </div>
+                <span class="dashboard-link">Buka Dashboard →</span>
+            </a>
+            
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 Procurement Dashboard Portal | Your Organization</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.7;">Powered by Integrated Analytics System</p>
+        </div>
+    </div>
+</body>
+</html>
