@@ -483,6 +483,39 @@
             opacity: 0.7;
         }
         
+        /* Under Maintenance Card */
+        .dashboard-card.maintenance {
+            cursor: not-allowed;
+            opacity: 0.55;
+            filter: grayscale(60%);
+            pointer-events: none;
+        }
+
+        .dashboard-card.maintenance .dashboard-link {
+            background: linear-gradient(135deg, #666, #444);
+            box-shadow: none;
+        }
+
+        .maintenance-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: #fff;
+            font-size: 0.82em;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 50px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            animation: pulseBadge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseBadge {
+            0%, 100% { box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4); }
+            50% { box-shadow: 0 4px 30px rgba(255, 107, 107, 0.8); }
+        }
+
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -611,37 +644,40 @@
             </a>
             
             <!-- DASHBOARD 3: SLA PER SUPPLIER -->
-            <a href="https://procurementanalys.github.io/SLA-PER-SUPPLIER/" class="dashboard-card" target="_blank">
+            <div class="dashboard-card maintenance">
                 <div class="dashboard-number">03</div>
                 <div class="dashboard-icon">🤝</div>
+                <div class="maintenance-badge">🚧 Under Maintenance</div>
                 <div class="dashboard-title">SLA Per Supplier</div>
                 <div class="dashboard-description">
                     Monitor Service Level Agreement dan performa setiap supplier
                 </div>
-                <span class="dashboard-link">Buka Dashboard →</span>
-            </a>
+                <span class="dashboard-link">Sedang Dalam Perbaikan</span>
+            </div>
             
             <!-- DASHBOARD 4: SLA PER SKU -->
-            <a href="https://procurementanalys.github.io/SLA-PER-SKU/" class="dashboard-card" target="_blank">
+            <div class="dashboard-card maintenance">
                 <div class="dashboard-number">04</div>
                 <div class="dashboard-icon">📦</div>
+                <div class="maintenance-badge">🚧 Under Maintenance</div>
                 <div class="dashboard-title">SLA Per SKU</div>
                 <div class="dashboard-description">
                     Tracking SLA untuk setiap Stock Keeping Unit (SKU) products
                 </div>
-                <span class="dashboard-link">Buka Dashboard →</span>
-            </a>
+                <span class="dashboard-link">Sedang Dalam Perbaikan</span>
+            </div>
             
             <!-- DASHBOARD 5: SOH (Stock On Hand) -->
-            <a href="https://procurementanalys.github.io/STOCK-ON-HAND/" class="dashboard-card" target="_blank">
+            <div class="dashboard-card maintenance">
                 <div class="dashboard-number">05</div>
                 <div class="dashboard-icon">📋</div>
+                <div class="maintenance-badge">🚧 Under Maintenance</div>
                 <div class="dashboard-title">SOH</div>
                 <div class="dashboard-description">
                     Real-time Stock On Hand monitoring, inventory levels, dan warehouse status
                 </div>
-                <span class="dashboard-link">Buka Dashboard →</span>
-            </a>
+                <span class="dashboard-link">Sedang Dalam Perbaikan</span>
+            </div>
 
             <!-- DASHBOARD 6: OOS Dashboard -->
             <a href="https://procurementanalys.github.io/OOSdashboard/" class="dashboard-card" target="_blank">
